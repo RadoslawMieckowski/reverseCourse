@@ -1,7 +1,5 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -26,8 +24,9 @@ public class ReverseCourse extends JFrame {
     private JButton checkButton;
     private JButton clearButon;
     private JButton loadButton;
-    private String linkMatrix= "https://stooq.pl/q/?s=";
+    private String linkMatrix="https://www.google.pl/search?q=cad%2Fpln&source=hp&ei=ytyFYOnxM5acjLsPuL-r2AY&iflsig=AINFCbYAAAAAYIXq2rxXVUd3nkIKs-nOrCKHnNFgMJAc&oq=ars%2Fsgd&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEBMyBAgAEBMyCAgAEA0QHhATMggIABANEB4QEzIICAAQDRAeEBMyCAgAEA0QHhATMgYIABAeEBMyCAgAEA0QHhATMggIABANEB4QEzIICAAQDRAeEBM6CAgAELEDEIMBOgIIADoOCAAQsQMQgwEQxwEQowI6CwgAELEDEMcBEKMCOgUIABCxAzoLCC4QsQMQgwEQkwI6CAguELEDEIMBOgUILhCxAzoCCC46CAguELEDEJMCOggIABDHARCvAToICAAQsQMQyQM6BQgAEJIDOgQIABAeOgcIABDJAxAeOgYILhAKEBM6CggAEA0QChAeEBM6BggAEAoQHjoGCAAQCBAeOggIABAIEAoQHlDcMFjUSGD5SmgAcAB4AIABeogB-wWSAQMxLjaYAQCgAQGqAQdnd3Mtd2l6&sclient=gws-wiz&ved=0ahUKEwjp_piiqZrwAhUWDmMBHbjfCmsQ4dUDCAc&uact=5";
 
+    //   old link https://stooq.pl/q/?s=
     public ReverseCourse() {
         setTitle("Reverse course");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -55,14 +54,17 @@ public class ReverseCourse extends JFrame {
             if (currency1.getText().equals("") || currency2.getText().equals(""))
                 JOptionPane.showMessageDialog(null, "Currencies' input fields must be filled!", "Error Message 3", JOptionPane.ERROR_MESSAGE);
             else{
+                String partI="https://www.google.pl/search?q=";
+                String partII="%2F";
+                String partIII="&source=hp&ei=ytyFYOnxM5acjLsPuL-r2AY&iflsig=AINFCbYAAAAAYIXq2rxXVUd3nkIKs-nOrCKHnNFgMJAc&oq=ars%2Fsgd&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEBMyBAgAEBMyCAgAEA0QHhATMggIABANEB4QEzIICAAQDRAeEBMyCAgAEA0QHhATMgYIABAeEBMyCAgAEA0QHhATMggIABANEB4QEzIICAAQDRAeEBM6CAgAELEDEIMBOgIIADoOCAAQsQMQgwEQxwEQowI6CwgAELEDEMcBEKMCOgUIABCxAzoLCC4QsQMQgwEQkwI6CAguELEDEIMBOgUILhCxAzoCCC46CAguELEDEJMCOggIABDHARCvAToICAAQsQMQyQM6BQgAEJIDOgQIABAeOgcIABDJAxAeOgYILhAKEBM6CggAEA0QChAeEBM6BggAEAoQHjoGCAAQCBAeOggIABAIEAoQHlDcMFjUSGD5SmgAcAB4AIABeogB-wWSAQMxLjaYAQCgAQGqAQdnd3Mtd2l6&sclient=gws-wiz&ved=0ahUKEwjp_piiqZrwAhUWDmMBHbjfCmsQ4dUDCAc&uact=5";
+                String newlink=partI+(currency1.getText()).toLowerCase()+partII+(currency2.getText()).toLowerCase()+partIII;
                 try {
-                    String id =("aq_"+currency1.getText()+currency2.getText()+"_c5").toLowerCase();
-                    System.out.println(link);
-                    System.out.println(id);
-                    Document doc = Jsoup.connect(link).get();
-                    Element el= doc.getElementById(id);
+                    String classValue =("DFlfde SwHCTb").toLowerCase();
+                    Document doc = Jsoup.connect(newlink).get();
+                    String el= doc.getElementsByAttributeValue("class",classValue).get(0).text();
                     System.out.println(el);
-                    quotation.setText(el.text());
+                    System.out.println(newlink);
+                    quotation.setText(el);
 
                 }catch (IOException | NullPointerException e){
                     JOptionPane.showMessageDialog(null,"Either connection failed, or can't find value, or incorrect data in the input fields!","Error message nr. 4",JOptionPane.ERROR_MESSAGE);
